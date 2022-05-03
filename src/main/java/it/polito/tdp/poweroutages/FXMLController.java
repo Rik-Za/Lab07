@@ -39,6 +39,14 @@ public class FXMLController {
     @FXML
     void doRun(ActionEvent event) {
     	txtResult.clear();
+    	Nerc nerc = cmbNerc.getValue();
+    	int anni=Integer.parseInt(txtYears.getText());
+    	int ore=Integer.parseInt(txtHours.getText());
+    	long startTime = System.nanoTime();
+    	String s= this.model.trovaSequenza(nerc.getId(), anni, ore);
+    	long endTime = System.nanoTime();
+    	txtResult.appendText(s);
+    	txtResult.appendText("\nTempo impiegato "+(endTime - startTime) / 1000000 + " ms");
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -54,5 +62,7 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	for(Nerc n: this.model.getNercList())
+    		cmbNerc.getItems().add(n);
     }
 }
